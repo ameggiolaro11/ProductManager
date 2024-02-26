@@ -1,0 +1,14 @@
+{
+  "name": "mi-proyecto",
+  "version": "1.0.0",
+  "description": "Mi proyecto con Express y ProductManager",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Agustin Meggiolaro",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
