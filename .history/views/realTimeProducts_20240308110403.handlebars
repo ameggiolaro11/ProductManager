@@ -1,0 +1,40 @@
+<!-- views/realTimeProducts.handlebars -->
+<h1>Lista de Productos en Tiempo Real</h1>
+
+<form action="/realTimeProducts" method="post">
+  <label for="title">Título:</label>
+  <input type="text" name="title" required>
+  <label for="description">Descripción:</label>
+  <input type="text" name="description" required>
+  <label for="price">Precio:</label>
+  <input type="number" name="price" required>
+  <label for="thumbnail">URL de la imagen:</label>
+  <input type="text" name="thumbnail" required>
+  <label for="code">Código:</label>
+  <input type="text" name="code" required>
+  <label for="stock">Stock:</label>
+  <input type="number" name="stock" required>
+  <button type="submit">Agregar Producto</button>
+</form>
+
+<ul>
+  {{#each products}}
+    <li>{{this.title}} - {{this.description}} - ${{this.price}}</li>
+  {{/each}}
+</ul>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  socket.on("updateProducts", (newProducts) => {
+    const productList = document.querySelector("ul");
+    productList.innerHTML = "";
+
+    newProducts.forEach((product) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `${product.title} - ${product.description} - $${product.price}`;
+      productList.appendChild(listItem);
+    });
+  });
+</script>

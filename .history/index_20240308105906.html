@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat en tiempo real</title>
+</head>
+<body>
+  <input type="text" id="messageInput">
+  <button onclick="sendMessage()">Enviar</button>
+  <div id="messages"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    socket.on("updateMessages", (newMessages) => {
+      const messagesDiv = document.getElementById("messages");
+      messagesDiv.innerHTML = ""; // Limpiar mensajes anteriores
+
+      newMessages.forEach((msg) => {
+        const messageDiv = document.createElement("div");
+        messageDiv.textContent = `${msg.socketId}: ${msg.message}`;
+        messagesDiv.appendChild(messageDiv);
+      });
+    });
+
+    function sendMessage() {
+      const messageInput = document.getElementById("messageInput");
+      const message = messageInput.value;
+
+      if (message.trim() !== "") {
+        socket.emit("sendMessage", message);
+        messageInput.value = ""; // Limpiar el campo después de enviar
+      }
+    }
+  </script>
+</body>
+</html>
